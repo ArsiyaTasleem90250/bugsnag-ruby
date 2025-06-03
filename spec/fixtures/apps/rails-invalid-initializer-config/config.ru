@@ -1,3 +1,5 @@
+require 'logger'
+
 Bundler.require
 
 run InitializerConfigApp ||= Class.new(Rails::Application) {
