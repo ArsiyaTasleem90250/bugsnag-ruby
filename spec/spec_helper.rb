@@ -47,11 +47,12 @@ def ruby_version_greater_equal?(target_version)
 end
 
 RSpec.configure do |config|
+
   config.order = "random"
   config.example_status_persistence_file_path = "#{Dir.tmpdir}/rspec_status"
   config.filter_run_when_matching(:focus)
 
-  config.before(:each) do
+  config.before(:each) do |example|
     WebMock.stub_request(:post, "https://notify.bugsnag.com/")
     WebMock.stub_request(:post, "https://sessions.bugsnag.com/")
 
@@ -61,12 +62,14 @@ RSpec.configure do |config|
 
     Thread.current[Bugsnag::SessionTracker::THREAD_SESSION] = nil
 
-    Bugsnag.configure do |bugsnag|
-      bugsnag.api_key = "c9d60ae4c7e70c4b6c4ebd3e8056d2b8"
-      bugsnag.release_stage = "production"
-      bugsnag.delivery_method = :synchronous
-      # silence logger in tests
-      bugsnag.logger = Logger.new(StringIO.new)
+    unless example.metadata[:no_configure]
+      Bugsnag.configure do |bugsnag|
+        bugsnag.api_key = "c9d60ae4c7e70c4b6c4ebd3e8056d2b8"
+        bugsnag.release_stage = "production"
+        bugsnag.delivery_method = :synchronous
+        # silence logger in tests
+        bugsnag.logger = Logger.new(StringIO.new)
+      end
     end
   end
 
