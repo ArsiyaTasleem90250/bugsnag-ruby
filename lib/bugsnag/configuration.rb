@@ -548,7 +548,7 @@ module Bugsnag
     def set_default_endpoints
       return unless @endpoints.notify.nil? && @endpoints.sessions.nil?
 
-      self.endpoints = if self.hub_api_key?
+      self.endpoints = if hub_api_key?
                          EndpointConfiguration.new(HUB_NOTIFY, HUB_SESSION)
                        else
                          EndpointConfiguration.new(DEFAULT_NOTIFY_ENDPOINT, DEFAULT_SESSION_ENDPOINT)
