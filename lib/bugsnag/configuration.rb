@@ -546,13 +546,13 @@ module Bugsnag
     # Sets the notification and session endpoints to default values if neither have been set
     #
     def set_default_endpoints
-      if @endpoints.notify.nil? && @endpoints.sessions.nil?
-        if self.hub_api_key?
-          self.endpoints = EndpointConfiguration.new(HUB_NOTIFY, HUB_SESSION)
-        else
-          self.endpoints = EndpointConfiguration.new(DEFAULT_NOTIFY_ENDPOINT, DEFAULT_SESSION_ENDPOINT)
-        end
-      end
+      return unless @endpoints.notify.nil? && @endpoints.sessions.nil?
+
+      self.endpoints = if self.hub_api_key?
+                         EndpointConfiguration.new(HUB_NOTIFY, HUB_SESSION)
+                       else
+                         EndpointConfiguration.new(DEFAULT_NOTIFY_ENDPOINT, DEFAULT_SESSION_ENDPOINT)
+                       end
     end
 
     ##
@@ -770,7 +770,7 @@ module Bugsnag
     end
 
     def hub_api_key?
-      @api_key && @api_key.start_with?(HUB_PREFIX)
+      @api_key&.start_with?(HUB_PREFIX)
     end
   end
 end

@@ -525,11 +525,11 @@ module Bugsnag
     # If only a session_endpoint has been set, and ArgumentError will be raised
     def check_endpoint_setup
       notify_set = configuration.notify_endpoint &&
-        configuration.notify_endpoint != Bugsnag::Configuration::DEFAULT_NOTIFY_ENDPOINT &&
-        configuration.notify_endpoint != Bugsnag::Configuration::HUB_NOTIFY
+                   configuration.notify_endpoint != Bugsnag::Configuration::DEFAULT_NOTIFY_ENDPOINT &&
+                   configuration.notify_endpoint != Bugsnag::Configuration::HUB_NOTIFY
       session_set = configuration.session_endpoint &&
-        configuration.session_endpoint != Bugsnag::Configuration::DEFAULT_SESSION_ENDPOINT &&
-        configuration.session_endpoint != Bugsnag::Configuration::HUB_SESSION
+                    configuration.session_endpoint != Bugsnag::Configuration::DEFAULT_SESSION_ENDPOINT &&
+                    configuration.session_endpoint != Bugsnag::Configuration::HUB_SESSION
       if notify_set && !session_set
         configuration.warn("The session endpoint has not been set, all further session capturing will be disabled")
         configuration.disable_sessions
