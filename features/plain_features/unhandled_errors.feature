@@ -33,7 +33,7 @@ Scenario Outline: An unhandled error sends a report
 
 Scenario Outline: An unhandled error doesn't send a report
   When I run the service "plain-ruby" with the command "<command> unhandled/<file>.rb"
-  Then I should receive no requests
+  Then I should receive no errors
 
   Examples:
   | file                 | command          |
