@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   specs:
-    runs-on: ${{ matrix.os || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
@@ -19,9 +19,6 @@ jobs:
             optional-groups: 'test'
           - ruby-version: '2.1'
             optional-groups: 'test'
-          - ruby-version: '2.2'
-            optional-groups: 'test sidekiq'
-            os: 'ubuntu-22.04'
           - ruby-version: 'jruby'
             optional-groups: 'test'
 
