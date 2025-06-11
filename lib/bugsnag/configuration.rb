@@ -770,7 +770,7 @@ module Bugsnag
     end
 
     def hub_api_key?
-      @api_key&.start_with?(HUB_PREFIX)
+      @api_key && @api_key.start_with?(HUB_PREFIX)
     end
   end
 end
