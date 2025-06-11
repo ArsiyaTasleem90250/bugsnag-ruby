@@ -51,6 +51,8 @@ class ExceptionWithDetailedMessageReturningEncodedString < Exception
   end
 end
 
+is_jruby = defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby'
+
 shared_examples "Report or Event tests" do |class_to_test|
   context "metadata" do
     include_examples(
@@ -1823,7 +1825,6 @@ describe Bugsnag::Report do
   end
 
   context "an object that infinitely recurse if `to_s` is called" do
-    is_jruby = defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby'
 
     class StringRecurser
       def to_s
@@ -1968,6 +1969,10 @@ describe Bugsnag::Report do
   end
 
   it "includes bugsnag lines marked out of project" do
+
+    # Flaky with JRuby, skipped pending PLAT-
+    skip "Flaky with JRuby, skipped pending PLAT-14393" if is_jruby
+
     notify_test_exception
     expect(Bugsnag).to have_sent_notification{ |payload, headers|
       exception = get_exception_from_payload(payload)
