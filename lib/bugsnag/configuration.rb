@@ -199,8 +199,8 @@ module Bugsnag
 
     DEFAULT_NOTIFY_ENDPOINT = "https://notify.bugsnag.com"
     DEFAULT_SESSION_ENDPOINT = "https://sessions.bugsnag.com"
-    HUB_NOTIFY = "https://notify.insighthub.smartbear.com"
-    HUB_SESSION = "https://sessions.insighthub.smartbear.com"
+    HUB_NOTIFY_ENDPOINT = "https://notify.insighthub.smartbear.com"
+    HUB_SESSION_ENDPOINT = "https://sessions.insighthub.smartbear.com"
     HUB_PREFIX = "00000"
 
     DEFAULT_META_DATA_FILTERS = [
@@ -549,7 +549,7 @@ module Bugsnag
       return unless @endpoints.notify.nil? && @endpoints.sessions.nil?
 
       self.endpoints = if hub_api_key?
-                         EndpointConfiguration.new(HUB_NOTIFY, HUB_SESSION)
+                         EndpointConfiguration.new(HUB_NOTIFY_ENDPOINT, HUB_SESSION_ENDPOINT)
                        else
                          EndpointConfiguration.new(DEFAULT_NOTIFY_ENDPOINT, DEFAULT_SESSION_ENDPOINT)
                        end
