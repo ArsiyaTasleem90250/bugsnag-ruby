@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## v6.28.0 (** June 2025)
+
+### Enhancements
+
+* Set default endpoints based on API key
+| [#835](https://github.com/bugsnag/bugsnag-ruby/pull/835)
+
 ## v6.27.1 (18 June 2024)
 
 ### Fixes
