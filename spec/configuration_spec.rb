@@ -107,8 +107,8 @@ describe Bugsnag::Configuration do
 
   describe "endpoint configuration" do
     describe "#notify_endpoint" do
-      it "defaults to DEFAULT_NOTIFY_ENDPOINT" do
-        expect(subject.notify_endpoint).to eq(Bugsnag::Configuration::DEFAULT_NOTIFY_ENDPOINT)
+      it "defaults to nil" do
+        expect(subject.notify_endpoint).to eq(nil)
       end
 
       it "is readonly" do
@@ -121,9 +121,13 @@ describe Bugsnag::Configuration do
     end
 
     describe "#session_endpoint" do
-      it "defaults to DEFAULT_SESSION_ENDPOINT" do
-        expect(subject.session_endpoint).to eq(Bugsnag::Configuration::DEFAULT_SESSION_ENDPOINT)
+      it "defaults to nil" do
+        expect(subject.session_endpoint).to eq(nil)
       end
+    end
+
+    describe "#set_default_endpoints" do
+
     end
 
     describe "#endpoint=" do
@@ -171,11 +175,11 @@ describe Bugsnag::Configuration do
     end
 
     describe "#endpoints" do
-      it "defaults to 'DEFAULT_NOTIFY_ENDPOINT' & 'DEFAULT_SESSION_ENDPOINT'" do
+      it "defaults to nil & nil" do
         config = Bugsnag::Configuration.new
 
-        expect(config.endpoints.notify).to eq(Bugsnag::Configuration::DEFAULT_NOTIFY_ENDPOINT)
-        expect(config.endpoints.sessions).to eq(Bugsnag::Configuration::DEFAULT_SESSION_ENDPOINT)
+        expect(config.endpoints.notify).to eq(nil)
+        expect(config.endpoints.sessions).to eq(nil)
       end
     end
 
@@ -203,7 +207,7 @@ describe Bugsnag::Configuration do
         expect(config.enable_sessions).to be(false)
       end
 
-      # TODO: this behaviour exists for backwards compatibilitiy
+      # TODO: this behaviour exists for backwards compatibility
       #       ideally we should not send events in this case
       it "warns and disables sessions if only notify URL is given" do
         config = Bugsnag::Configuration.new
@@ -426,6 +430,23 @@ describe Bugsnag::Configuration do
           expect(output_lines.first).to eq(
             '[Bugsnag] WARN: No valid API key has been set, notifications will not be sent'
           )
+        end
+
+        it "uses the default endpoints for non-hub API keys", :no_configure => true do
+          Bugsnag.configure do |config|
+            config.api_key = '00002472bd130ac0ab0f52715bbdc600'
+          end
+
+          expect(Bugsnag.configuration.endpoints.notify).to eq(Bugsnag::Configuration::DEFAULT_NOTIFY_ENDPOINT)
+          expect(Bugsnag.configuration.endpoints.sessions).to eq(Bugsnag::Configuration::DEFAULT_SESSION_ENDPOINT)
+        end
+
+        it "uses the hub endpoints for hub API keys", :no_configure => true do
+          Bugsnag.configure do |config|
+            config.api_key = '00000472bd130ac0ab0f52715bbdc600'
+          end
+          expect(Bugsnag.configuration.endpoints.notify).to eq(Bugsnag::Configuration::HUB_NOTIFY_ENDPOINT)
+          expect(Bugsnag.configuration.endpoints.sessions).to eq(Bugsnag::Configuration::HUB_SESSION_ENDPOINT)
         end
       end
     end

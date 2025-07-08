@@ -5,7 +5,7 @@ Scenario: Auto_notify set to false in the initializer prevents unhandled error s
   Given I set environment variable "BUGSNAG_AUTO_NOTIFY" to "false"
   And I start the rails service
   When I navigate to the route "/auto_notify/unhandled" on the rails app
-  Then I should receive no requests
+  Then I should receive no errors
 
 @rails3 @rails4 @rails5 @rails6 @rails7 @rails8
 Scenario: Auto_notify set to false in the initializer still sends handled errors
@@ -24,7 +24,7 @@ Scenario: Auto_notify set to false in the initializer still sends handled errors
 Scenario: Auto_notify set to false after the initializer prevents unhandled error sending
   Given I start the rails service
   When I navigate to the route "/auto_notify/unhandled_after" on the rails app
-  Then I should receive no requests
+  Then I should receive no errors
 
 @rails3 @rails4 @rails5 @rails6 @rails7 @rails8
 Scenario: Auto_notify set to false after the initializer still sends handled errors

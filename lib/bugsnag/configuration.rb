@@ -199,7 +199,9 @@ module Bugsnag
 
     DEFAULT_NOTIFY_ENDPOINT = "https://notify.bugsnag.com"
     DEFAULT_SESSION_ENDPOINT = "https://sessions.bugsnag.com"
-    DEFAULT_ENDPOINT = DEFAULT_NOTIFY_ENDPOINT
+    HUB_NOTIFY_ENDPOINT = "https://notify.insighthub.smartbear.com"
+    HUB_SESSION_ENDPOINT = "https://sessions.insighthub.smartbear.com"
+    HUB_PREFIX = "00000"
 
     DEFAULT_META_DATA_FILTERS = [
       /authorization/i,
@@ -249,7 +251,7 @@ module Bugsnag
       # to avoid infinite recursion when creating breadcrumb buffer
       @max_breadcrumbs = DEFAULT_MAX_BREADCRUMBS
 
-      @endpoints = EndpointConfiguration.new(DEFAULT_NOTIFY_ENDPOINT, DEFAULT_SESSION_ENDPOINT)
+      @endpoints = EndpointConfiguration.new(nil, nil)
 
       @enable_events = true
       @enable_sessions = true
@@ -541,6 +543,19 @@ module Bugsnag
     end
 
     ##
+    # Sets the notification and session endpoints to default values if neither have been set
+    #
+    def set_default_endpoints
+      return unless @endpoints.notify.nil? && @endpoints.sessions.nil?
+
+      self.endpoints = if hub_api_key?
+                         EndpointConfiguration.new(HUB_NOTIFY_ENDPOINT, HUB_SESSION_ENDPOINT)
+                       else
+                         EndpointConfiguration.new(DEFAULT_NOTIFY_ENDPOINT, DEFAULT_SESSION_ENDPOINT)
+                       end
+    end
+
+    ##
     # Sets the notification and session endpoints
     #
     # @param new_notify_endpoint [String] The URL to deliver error notifications to
@@ -752,6 +767,10 @@ module Bugsnag
     def default_hostname
       # Send the heroku dyno name instead of hostname if available
       ENV["DYNO"] || Socket.gethostname;
+    end
+
+    def hub_api_key?
+      @api_key && @api_key.start_with?(HUB_PREFIX)
     end
   end
 end

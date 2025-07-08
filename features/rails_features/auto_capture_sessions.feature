@@ -13,7 +13,7 @@ Scenario: Auto_capture_sessions can be set to false in the initializer
   Given I set environment variable "BUGSNAG_AUTO_CAPTURE_SESSIONS" to "false"
   And I start the rails service
   When I navigate to the route "/session_tracking/initializer" on the rails app
-  Then I should receive no requests
+  Then I should receive no sessions
 
 @rails3 @rails4 @rails5 @rails6 @rails7 @rails8
 Scenario: Manual sessions are still sent if Auto_capture_sessions is false

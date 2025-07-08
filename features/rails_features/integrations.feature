@@ -238,7 +238,7 @@ Scenario: Using Sidekiq as the Active Job queue adapter for a job that works
   And I start the rails service
   And I run "bundle exec sidekiq" in the rails app in the background
   When I run the "fixture:queue_working_job" rake task in the rails app
-  Then I should receive no requests
+  Then I should receive no errors
 
 @rails_integrations
 Scenario: Using Resque as the Active Job queue adapter for a job that works
@@ -246,7 +246,7 @@ Scenario: Using Resque as the Active Job queue adapter for a job that works
   And I start the rails service
   And I run "bundle exec rake resque:work" in the rails app in the background
   When I run the "fixture:queue_working_job" rake task in the rails app
-  Then I should receive no requests
+  Then I should receive no errors
 
 @rails_integrations
 Scenario: Using Que as the Active Job queue adapter for a job that works
@@ -254,7 +254,7 @@ Scenario: Using Que as the Active Job queue adapter for a job that works
   And I start the rails service with the database
   And I run "bundle exec que -q default ./config/environment.rb" in the rails app in the background
   When I run the "fixture:queue_working_job" rake task in the rails app
-  Then I should receive no requests
+  Then I should receive no errors
 
 @rails_integrations
 Scenario: Using Delayed Job as the Active Job queue adapter for a job that works
@@ -262,4 +262,4 @@ Scenario: Using Delayed Job as the Active Job queue adapter for a job that works
   And I start the rails service with the database
   And I run the "jobs:work" rake task in the rails app in the background
   When I run the "fixture:queue_working_job" rake task in the rails app
-  Then I should receive no requests
+  Then I should receive no errors

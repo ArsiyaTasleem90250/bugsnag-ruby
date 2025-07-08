@@ -1,3 +1,5 @@
+require 'logger'
+
 Bundler.require
 
 run NoConfigApp ||= Class.new(Rails::Application) {

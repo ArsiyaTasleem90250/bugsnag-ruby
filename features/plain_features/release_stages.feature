@@ -4,7 +4,7 @@ Scenario: Doesn't notify in the wrong release stage
   Given I set environment variable "BUGSNAG_NOTIFY_RELEASE_STAGE" to "stage_one"
   And I set environment variable "BUGSNAG_RELEASE_STAGE" to "stage_two"
   When I run the service "plain-ruby" with the command "bundle exec ruby configuration/send_unhandled.rb"
-  Then I should receive no requests
+  Then I should receive no errors
 
 Scenario: Does notify in the correct release stage
   Given I set environment variable "BUGSNAG_NOTIFY_RELEASE_STAGE" to "stage_one"

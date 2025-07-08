@@ -600,6 +600,7 @@ Style/RescueStandardError:
 Style/SafeNavigation:
   Exclude:
     - 'lib/bugsnag/middleware/callbacks.rb'
+    - 'lib/bugsnag/configuration.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
