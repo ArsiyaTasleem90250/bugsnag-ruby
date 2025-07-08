@@ -49,22 +49,17 @@ If you're a member of the core team, follow these instructions for releasing bug
 ### First time setup
 
 * Create a Rubygems account
-* Get James/Simon to add you as contributor on bugsnag-ruby in Rubygems
+* Get someone to add you as contributor on bugsnag-ruby-performance in Rubygems
 
 ### Every time
 
-* Update `VERSION`
-* Update `CHANGELOG.md`
-* Update `README.md` if necessary
-* Commit/push your changes
-
-    ```
-    git add VERSION CHANGELOG.md README.md
-    git commit -m "Release v6.x.x"
-    git push origin master
-    ```
-
-* Release to rubygems
+* Create a new release branch named in the format `release/v1.x.x`
+* Update the version number in [`lib/bugsnag/version.rb`](./lib/bugsnag_performance/version.rb)
+* Update [`CHANGELOG.md`](./CHANGELOG.md) with any changes
+* Open a pull request into `master` and get it approved
+* Merge the pull request using the message "Release v1.x.x"
+* Make a GitHub release
+* Release to rubygems:
 
     ```
     gem build bugsnag.gemspec
